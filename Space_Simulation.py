@@ -5,12 +5,13 @@ class Simulation:
     def __init__(self):
         pygame.init()
         self.window = pygame.display.set_mode((700, 700))
-        pygame.display.set_caption("Space Inertia Simulation")
+        pygame.display.set_caption("Space Simulation")
         self.rocket = Rocket()
         self.running = True
         self.marks = []
         self.paused = False
         self.axisLines = 20
+        self.axisHeight = 20
 
     #Clears the screen
     def clear(self):
@@ -26,6 +27,7 @@ class Simulation:
         self.clear()
         self.rocket.halfVars()
         self.axisLines *= 2
+        self.axisHeight /= 2
         for mark in self.marks:
             mark.halfVars()
 
@@ -34,6 +36,7 @@ class Simulation:
         self.clear()
         self.rocket.doubleVars()
         self.axisLines /= 2
+        self.axisHeight *= 2
         for mark in self.marks:
             mark.doubleVars()
 
@@ -134,6 +137,7 @@ class Rocket:
         self.accX /= 2
         self.accY /= 2
         self.radius /= 2
+
 
     #Doubles variables for zooming in simulation
     def doubleVars(self):
