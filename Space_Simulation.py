@@ -10,6 +10,7 @@ class Simulation:
         self.running = True
         self.marks = []
         self.paused = False
+        self.axisLines = 20
 
     #Clears the screen
     def clear(self):
@@ -24,6 +25,7 @@ class Simulation:
     def zoomOut(self):
         self.clear()
         self.rocket.halfVars()
+        self.axisLines *= 2
         for mark in self.marks:
             mark.halfVars()
 
@@ -31,6 +33,7 @@ class Simulation:
     def zoomIn(self):
         self.clear()
         self.rocket.doubleVars()
+        self.axisLines /= 2
         for mark in self.marks:
             mark.doubleVars()
 
@@ -68,19 +71,31 @@ class Simulation:
         for mark in self.marks:
             pygame.draw.circle(self.window, (255, 255, 255), (int(mark.posX), int(mark.posY)), int(self.rocket.radius / 2), 1)
 
+    #Draws an XY-Axis
+    '''
+    4/18/2019
+    Has error: Ratio of radius to first axis marker is not staying constant
+    '''
+    def drawAxis(self):
+        pygame.draw.line(self.window, (255,255,255), (0,350), (700,350))
+        pygame.draw.line(self.window, (255,255,255), (350,0), (350,700))
+        for i in range(int(self.axisLines)):
+            pos = int(700 / self.axisLines * i)
+            lineHeight = int(200 / self.axisLines)
+            pygame.draw.line(self.window, (255,255,255), (pos,350 - lineHeight), (pos,350 + lineHeight))
+            pygame.draw.line(self.window, (255,255,255), (350 - lineHeight,pos), (350 + lineHeight,pos))
+
     #Loops to gather user input and update simulation
     def simLoop(self):
             self.getInput()
             self.rocket.update()
             self.clear()
+            self.drawAxis()
             self.drawMarks()
             pygame.draw.circle(self.window, (255, 255, 255), (int(self.rocket.posX),int(self.rocket.posY)), int(self.rocket.radius))
             self.marks.append(Mark(self.rocket.posX, self.rocket.posY))
             pygame.display.flip()
             time.sleep(.1)
-
-class Axis:
-    pass
 
 class Mark:
     #Initiates a mark object to track the track of the rocket
