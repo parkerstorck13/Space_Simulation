@@ -75,10 +75,6 @@ class Simulation:
             pygame.draw.circle(self.window, (255, 255, 255), (int(mark.posX), int(mark.posY)), int(self.rocket.radius / 2), 1)
 
     #Draws an XY-Axis
-    '''
-    4/18/2019
-    Has error: Ratio of radius to first axis marker is not staying constant
-    '''
     def drawAxis(self):
         pygame.draw.line(self.window, (255,255,255), (0,350), (700,350))
         pygame.draw.line(self.window, (255,255,255), (350,0), (350,700))
